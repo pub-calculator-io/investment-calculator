@@ -1,4 +1,4 @@
-=== Investment Calculator by Calculator.iO ===
+=== Investment Calculator ===
 Contributors: calculatorio
 Tags: investment calculator, calculate investment, investment planning, ROI calculator, return on investment, investment growth, investment strategy, compound interest calculator, future value calculator, investment income, investment portfolio
 Requires at least: 5.0
