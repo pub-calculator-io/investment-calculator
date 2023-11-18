@@ -1,4 +1,4 @@
-# Investment Calculator WordPress Widget by [Calculator.iO](https://www.calculator.io/ "Calculator.iO Homepage")
+# Investment Calculator Widget for WordPress
 
 This free investment calculator considers the initial and ending balances, return rate, and investment time when evaluating various investment circumstances.
 
