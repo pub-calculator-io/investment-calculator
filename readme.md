@@ -7,7 +7,7 @@ This free investment calculator considers the initial and ending balances, retur
 
 ## Installation
 
-1. [Download](https://github.com/pub-calculator-io/age-calculator/archive/refs/heads/master.zip) the ZIP file of this repository.
+1. [Download](https://github.com/pub-calculator-io/investment-calculator/archive/refs/heads/master.zip) the ZIP file of this repository.
 2. Upload the /investment-calculator-master/ folder to the /wp-content/plugins/ directory.
 3. Activate the [Investment Calculator](https://www.calculator.io/investment-calculator/ "Investment Calculator Homepage") plugin through the "Plugins" menu in WordPress.
 
