@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Investment Calculator by www.calculator.io
+Plugin Name: CI Investment calculator
 Plugin URI: https://www.calculator.io/investment-calculator/
 Description: This free investment calculator considers the initial and ending balances, return rate, and investment time when evaluating various investment circumstances.
 Version: 1.0.0
