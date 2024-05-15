@@ -228,13 +228,11 @@ system.forEach((i) =>
 );
 
 // SEARCH
-const JSON_CALCULATORS = allCalculators;
-
 const MODAL_SEARCH = document.querySelector('.modal-search__input')
 const MODAL_SEARCH_LIST = document.querySelector('.modal-search__list')
 const MODAL_SEARCH_LIST_CONTENT = document.querySelector('.modal-search__list-content')
 
-MODAL_SEARCH.addEventListener('input', (e) => {
+if(MODAL_SEARCH) MODAL_SEARCH.addEventListener('input', (e) => {
 	focusedElement = 0
 	if(e.target.value.length > 0) {
 		const FILTERED_JSON = JSON_CALCULATORS.filter(CALCULATOR => {
@@ -276,16 +274,18 @@ MODAL_SEARCH.addEventListener('input', (e) => {
 // LANG
 const LANG_SELECTS = document.querySelectorAll('.header-lang__select')
 
-let langIsEng = true
+if (LANG_SELECTS){
+	let langIsEng = true
 
-for (const LANG_SELECT of LANG_SELECTS) {
-	if(LANG_SELECT.innerText !== 'ENG' && window.location.href.match(LANG_SELECT.href) !== null) {
-		LANG_SELECT.classList.add('header-lang__select--active')
-		langIsEng = false
+	for (const LANG_SELECT of LANG_SELECTS) {
+		if(LANG_SELECT.innerText !== 'ENG' && window.location.href.match(LANG_SELECT.href) !== null) {
+			LANG_SELECT.classList.add('header-lang__select--active')
+			langIsEng = false
+		}
 	}
-}
 
-if(langIsEng) LANG_SELECTS[0].classList.add('header-lang__select--active')
+	if(langIsEng) LANG_SELECTS[0]?.classList?.add('header-lang__select--active')
+}
 
 // SHARE
 $$('.modal-share__button').forEach((button,index) => {

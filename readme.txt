@@ -24,7 +24,6 @@ Add the following code to your template where you would like the Investment Calc
 == Screenshots ==
 
 1. The Investment Calculator Input Form.
-2. The Investment Calculator Calculation Results.
 
 == Installation ==
 

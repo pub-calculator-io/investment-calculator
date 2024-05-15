@@ -3,7 +3,6 @@
 This free investment calculator considers the initial and ending balances, return rate, and investment time when evaluating various investment circumstances.
 
 ![Investment Calculator Input Form](/assets/images/screenshot-1.png "Investment Calculator Input Form")
-![Investment Calculator Calculation Results](/assets/images/screenshot-2.png "Investment Calculator Calculation Results")
 
 ## Installation
 

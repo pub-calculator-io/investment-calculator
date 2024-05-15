@@ -105,7 +105,7 @@ function calculate(){
 	else if(calcType === 4){
 		let totalInvested = pv5 + contribution5;
 		if(totalInvested > fv5){
-			return input.error(['starting_amount_2', 'additional_contribution_4'], 'Total invested cannot be greater than future value', true);
+			return input.error(['starting_amount_2', 'additional_contribution_4'], 'Total invested amount cannot be greater than future value', true);
 		}
 		else {
 			var y = 0.2;

@@ -1,3 +1,5 @@
+window.log = console.log;
+
 window.setValue = function (inputId, value, index){
 	_(inputId).value = value;
 	_(inputId).index = index;
@@ -16,9 +18,6 @@ window.switcher = function(button, id, action) {
 }
 
 window.toggleRelatedInputs = function(element, id, action){
-	// Применяя toggleRelatedInputs к выпдающим спискам, в element передается event
-	// Если в element передается event, то функция не отрабатывает
-	// Сделал првоерку на тип элемента и в случае если element === Event, то передается element.target
 	element = element instanceof Event ? element.target : element
 	id = id ?? element.id;
 	let value = element.value;
@@ -28,7 +27,7 @@ window.toggleRelatedInputs = function(element, id, action){
 			element.classList.remove("disabled");
 		} else if (action === "finding") {
 			element.classList.remove("disabled");
-			if(element.querySelector('.input-field__input').value === "finding...") {
+			if(element.querySelector('.input-field__input').value === "???") {
 				element.querySelector('.input-field__input').value = ""
 			}
 		} else {
@@ -39,7 +38,7 @@ window.toggleRelatedInputs = function(element, id, action){
 		if(action === "disabled") {
 			element.classList.add("disabled");
 		} else if (action === "finding") {
-			element.querySelector('.input-field__input').value = "finding..."
+			element.querySelector('.input-field__input').value = "???"
 			element.classList.add("disabled");
 		} else {
 			element.classList.remove("related-item-hidden");
@@ -355,6 +354,7 @@ window.input = {
 	date: function(format = 'yyyy-mm-dd', errorText = `The ${this.elementId} is required field.`){
 		let regex = new RegExp("^" + format.replace(/[\:\-\/\\]/g, '\\$&').replace(/y|m|d|h|s/g, '\\d') + "$");
 		if (!this.value.match(regex) || isNaN(this.value = new Date(this.value))) this.error(this.elementId, errorText);
+		this.value = convertTZ(this.value, "UTC");
 		return this;
 	},
 	bool: function(){
@@ -498,4 +498,161 @@ window.roundTo = function (num, decimals = 5) {
 		return roundTo(+splitted[0], decimals) + `e${splitted[1]}`;
 	};
 	return +(Math.round(num + `e+${decimals}`) + `e-${decimals}`);
+}
+
+window.delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+window.generateRandomDigit = () => Math.floor(Math.random() * 10);
+window.convertTZ = (date, tzString) => new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));
+window.animateElement = async (element, isText) => {
+	const originalText = element.innerHTML;
+	let digitIndices = [];
+	let originalDigits = [];
+
+	[...originalText].forEach((char, index) => {
+		if (!isNaN(parseInt(char, 10)) && char !== ' ') {
+			digitIndices.push(index);
+			originalDigits.push(char);
+		}
+	});
+
+	for (let i = 0; i < 10; i++) {
+		let textArray = [...originalText];
+		digitIndices.forEach(index => {
+			textArray[index] = generateRandomDigit();
+		});
+		element.innerHTML = textArray.join('');
+		await delay(30);
+	}
+
+	digitIndices.forEach((index, digitIndex) => {
+		let textArray = [...originalText];
+		textArray[index] = originalDigits[digitIndex];
+		element.innerHTML = textArray.join('');
+	});
+};
+window.animateElements = function(){
+	$$('.animate').forEach(async (element) => animateElement(element));
+	$$('.animate-text').forEach(async (element) => animateElement(element, true));
+}
+window.plural = function (number, versions, options = { showNumber: true, localize: true, locale: null }) {
+	const words = {
+		zero: "",
+		one: "",
+		two: "",
+		few: "",
+		many: "",
+		other: ""
+	};
+  	const parts = versions.split(':');
+	if (parts.length === 1) {
+		Object.keys(words).forEach(key => words[key] = versions);
+	} else {
+		let i = 0;
+		for (let key in words) {
+			words[key] = parts[i] || parts[0];
+			i++;
+		}
+	}
+	const rule = new Intl.PluralRules(options.locale ?? window.locale).select(Math.floor(number));
+	return `${options.showNumber ? `${options.localize ? number.toLocaleString(options.locale ?? window.locale) : number} ` : ''}${words[rule]}`;
+};
+
+window.numberToWords = function(num) {
+	if (num === 0) return 'zero';
+	const belowTwenty = [
+		'', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
+		'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen',
+		'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+
+	const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+
+	const hundreds = [
+		'', 'one hundred', 'two hundred', 'three hundred', 'four hundred', 'five hundred',
+		'six hundred', 'seven hundred', 'eight hundred', 'nine hundred'];
+
+	const integerScales = [
+		'thousands:thousand:thousands:thousands:thousands:thousands', 'millions:million:millions:millions:millions:millions', 'billions:billion:billions:billions:billions:billions', 'trillions:trillion:trillions:trillions:trillions:trillions', 'quadrillions:quadrillion:quadrillions:quadrillions:quadrillions:quadrillions',
+		'quintillions:quintillion:quintillions:quintillions:quintillions:quintillions', 'sextillions:sextillion:sextillions:sextillions:sextillions:sextillions', 'septillions:septillion:septillions:septillions:septillions:septillions', 'octillions:octillion:octillions:octillions:octillions:octillions', 'nonillions:nonillion:nonillions:nonillions:nonillions:nonillions',
+		'decillions:decillion:decillions:decillions:decillions:decillions', 'undecillions:undecillion:undecillions:undecillions:undecillions:undecillions', 'duodecillions:duodecillion:duodecillions:duodecillions:duodecillions:duodecillions', 'tredecillions:tredecillion:tredecillions:tredecillions:tredecillions:tredecillions', 'quattuordecillions:quattuordecillion:quattuordecillions:quattuordecillions:quattuordecillions:quattuordecillions',
+		'quindecillions:quindecillion:quindecillions:quindecillions:quindecillions:quindecillions', 'sexdecillions:sexdecillion:sexdecillions:sexdecillions:sexdecillions:sexdecillions', 'septendecillions:septendecillion:septendecillions:septendecillions:septendecillions:septendecillions', 'octodecillions:octodecillion:octodecillions:octodecillions:octodecillions:octodecillions',
+		'novemdecillions:novemdecillion:novemdecillions:novemdecillions:novemdecillions:novemdecillions', 'vigintillions:vigintillion:vigintillions:vigintillions:vigintillions:vigintillions'];
+
+	const decimalScales = [
+		'tenths:tenth:tenths:tenths:tenths:tenths', 'hundredths:hundredth:hundredths:hundredths:hundredths:hundredths', 'thousandths:thousandth:thousandths:thousandths:thousandths:thousandths', 'ten-thousandths:ten-thousandth:ten-thousandths:ten-thousandths:ten-thousandths:ten-thousandths', 'hundred-thousandths:hundred-thousandth:hundred-thousandths:hundred-thousandths:hundred-thousandths:hundred-thousandths', 'millionths:millionth:millionths:millionths:millionths:millionths',
+		'ten-millionths:ten-millionth:ten-millionths:ten-millionths:ten-millionths:ten-millionths', 'hundred-millionths:hundred-millionth:hundred-millionths:hundred-millionths:hundred-millionths:hundred-millionths', 'billionths:billionth:billionths:billionths:billionths:billionths', 'ten-billionths:ten-billionth:ten-billionths:ten-billionths:ten-billionths:ten-billionths', 'hundred-billionths:hundred-billionth:hundred-billionths:hundred-billionths:hundred-billionths:hundred-billionths',
+		'trillionths:trillionth:trillionths:trillionths:trillionths:trillionths', 'ten-trillionths:ten-trillionth:ten-trillionths:ten-trillionths:ten-trillionths:ten-trillionths', 'hundred-trillionths:hundred-trillionth:hundred-trillionths:hundred-trillionths:hundred-trillionths:hundred-trillionths', 'quadrillionths:quadrillionth:quadrillionths:quadrillionths:quadrillionths:quadrillionths', 'ten-quadrillionths:ten-quadrillionth:ten-quadrillionths:ten-quadrillionths:ten-quadrillionths:ten-quadrillionths',
+		'hundred-quadrillionths:hundred-quadrillionth:hundred-quadrillionths:hundred-quadrillionths:hundred-quadrillionths:hundred-quadrillionths', 'quintillionths:quintillionth:quintillionths:quintillionths:quintillionths:quintillionths', 'ten-quintillionths:ten-quintillionth:ten-quintillionths:ten-quintillionths:ten-quintillionths:ten-quintillionths', 'hundred-quintillionths:hundred-quintillionth:hundred-quintillionths:hundred-quintillionths:hundred-quintillionths:hundred-quintillionths',
+		'sextillionths:sextillionth:sextillionths:sextillionths:sextillionths:sextillionths', 'septillionths:septillionth:septillionths:septillionths:septillionths:septillionths', 'octillionths:octillionth:octillionths:octillionths:octillionths:octillionths', 'nonillionths:nonillionth:nonillionths:nonillionths:nonillionths:nonillionths', 'decillionths:decillionth:decillionths:decillionths:decillionths:decillionths',
+		'undecillionths:undecillionth:undecillionths:undecillionths:undecillionths:undecillionths', 'duodecillionths:duodecillionth:duodecillionths:duodecillionths:duodecillionths:duodecillionths', 'tredecillionths:tredecillionth:tredecillionths:tredecillionths:tredecillionths:tredecillionths', 'quattuordecillionths:quattuordecillionth:quattuordecillionths:quattuordecillionths:quattuordecillionths:quattuordecillionths', 'quindecillionths:quindecillionth:quindecillionths:quindecillionths:quindecillionths:quindecillionths',
+		'sexdecillionths:sexdecillionth:sexdecillionths:sexdecillionths:sexdecillionths:sexdecillionths', 'septendecillionths:septendecillionth:septendecillionths:septendecillionths:septendecillionths:septendecillionths', 'octodecillionths:octodecillionth:octodecillionths:octodecillionths:octodecillionths:octodecillionths', 'novemdecillionths:novemdecillionth:novemdecillionths:novemdecillionths:novemdecillionths:novemdecillionths', 'vigintillionths:vigintillionth:vigintillionths:vigintillionths:vigintillionths:vigintillionths'];
+
+	let chunks = [];
+	let currentNum = BigInt(Math.floor(num));
+
+	while (currentNum > 0n) {
+		chunks.unshift(currentNum % 1000n);
+		currentNum = currentNum / 1000n;
+	}
+
+	if (chunks.length === 0) chunks.push(0n); // Handle numbers less than 1
+
+	let integerWords = chunks.map((chunk, index) => {
+		chunk = Number(chunk);
+		if (chunk === 0) return '';
+		const hundred = Math.floor(chunk / 100);
+		const tenUnit = chunk % 100;
+		const ten = Math.floor(tenUnit / 10);
+		const unit = tenUnit % 10;
+
+		let chunkText = '';
+
+		if (hundred > 0) chunkText += hundreds[hundred] + ' ';
+		if (tenUnit >= 20) {
+			chunkText += tens[ten] + ' ';
+			if (unit > 0) chunkText += belowTwenty[unit];
+		} else if (tenUnit > 0) {
+			chunkText += belowTwenty[tenUnit];
+		}
+
+		if (chunk > 0 && index < chunks.length - 1) {
+			let scale = integerScales[chunks.length - index - 2];
+			return chunkText.trim() + ' ' + plural(chunk, scale, {showNumber: false});
+		}
+		return chunkText.trim();
+	}).join(' ').trim();
+
+	let decimalPart = (num - Math.floor(num)).toFixed(num.toString().split('.')?.[1]?.length).toString().slice(2);
+	let decimalLength = decimalPart > 0 ? decimalPart.toString().replace('-', '').length : 0;
+
+	return (integerWords.length > 0 ? integerWords : 'zero') + (decimalLength > 0 ? ' point ' + numberToWords(decimalPart) + ' ' + plural(decimalPart, decimalScales[decimalLength-1], {showNumber: false}) : '');
+}
+
+window.toSentenceCase = function(str){
+	const firstLetter = str.substr(0, 1);
+	return firstLetter.toUpperCase() + str.substr(1).toLowerCase();
+}
+
+window.toTitleCase = function(str) {
+  return str.toLowerCase().split(' ').map(function(word) {
+    return (word.charAt(0).toUpperCase() + word.slice(1));
+  }).join(' ');
+}
+
+window.setCookie = function(key, value){
+	const date = new Date();
+	date.setTime(date.getTime() + (10 * 365 * 24 * 60 * 60 * 1000));
+	document.cookie = `${key}=${value};expires=${date.toUTCString()};path=/`;
+}
+
+window.getCookie = function(key) {
+    let nameEQ = key + "=";
+    let ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1);
+        if (c.indexOf(nameEQ) === 0) {
+            return decodeURIComponent(c.substring(nameEQ.length, c.length));
+        }
+    }
+    return null;
 }

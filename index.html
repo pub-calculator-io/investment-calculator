@@ -28,7 +28,7 @@
             <div class="calculator-setting" id="calculator_form">
                 <div class="calculator-content col">
                 	<div class="input-wrapper row">
-                		<label class="input col ">
+                		<label class="input col investment-calculator,compound-interest-calculator,future-value-calculator,apr-calculator,roi-calculator,401k-calculator,present-value-calculator,annuity-calculator,simple-investment-calculator">
                 			
                 			<div class="dropdown-wrapper">
                 				<div class="input-field row " tabindex="0">
@@ -77,7 +77,7 @@
                 				<input type="text" class="input-field__input" placeholder="" id="return_rate" value="6" />
                 				<span class="input-field__hint">%</span>
                 			</div>
-                		</label>		<label class="input col ">
+                		</label>		<label class="input col investment-calculator,compound-interest-calculator,future-value-calculator,apr-calculator,roi-calculator,401k-calculator,present-value-calculator,annuity-calculator,simple-investment-calculator">
                 			<p class="input__title">Compound</p>
                 			<div class="dropdown-wrapper">
                 				<div class="input-field row " tabindex="0">
@@ -150,7 +150,7 @@
                 				<input type="text" class="input-field__input" placeholder="" id="return_rate_2" value="6" />
                 				<span class="input-field__hint">%</span>
                 			</div>
-                		</label>		<label class="input col ">
+                		</label>		<label class="input col investment-calculator,compound-interest-calculator,future-value-calculator,apr-calculator,roi-calculator,401k-calculator,present-value-calculator,annuity-calculator,simple-investment-calculator">
                 			<p class="input__title">Compound</p>
                 			<div class="dropdown-wrapper">
                 				<div class="input-field row " tabindex="0">
@@ -240,7 +240,7 @@
                 				<input type="text" class="input-field__input" placeholder="" id="return_rate_3" value="6" />
                 				<span class="input-field__hint">%</span>
                 			</div>
-                		</label>		<label class="input col ">
+                		</label>		<label class="input col investment-calculator,compound-interest-calculator,future-value-calculator,apr-calculator,roi-calculator,401k-calculator,present-value-calculator,annuity-calculator,simple-investment-calculator">
                 			<p class="input__title">Compound</p>
                 			<div class="dropdown-wrapper">
                 				<div class="input-field row " tabindex="0">
@@ -306,7 +306,7 @@
                 				<input type="text" class="input-field__input" placeholder="" id="return_rate_4" value="6" />
                 				<span class="input-field__hint">%</span>
                 			</div>
-                		</label>		<label class="input col ">
+                		</label>		<label class="input col investment-calculator,compound-interest-calculator,future-value-calculator,apr-calculator,roi-calculator,401k-calculator,present-value-calculator,annuity-calculator,simple-investment-calculator">
                 			<p class="input__title">Compound</p>
                 			<div class="dropdown-wrapper">
                 				<div class="input-field row " tabindex="0">
@@ -393,14 +393,17 @@
                 
                 
                 
-                	<button class="button button--primary ml-auto" onclick="calculate(this)">Calculate</button>
+                	<button class="button button--primary ml-auto" onclick="calculate(this); animateElements();" data-action="calculate" id="action-button">Calculate</button>
                 </div>
                 
-                	<script type="text/javascript" src="./assets/js/chart.js" id="chartjs_script"></script>
+                	<script type="text/javascript" src="./assets/js/lib/chartjs/chart.min.js" id="chartjs_lib" defer></script>
+                	<script type="text/javascript" src="./assets/js/chart.js" id="chartjs_script" defer></script>
                 
                 
                 
-                	<script type="text/javascript" src="./assets/js/calculator.js"></script>
+                
+                
+                	<script type="text/javascript" src="./assets/js/calculator.js" defer></script>
             </div>
         </div>
     </div>
@@ -415,39 +418,38 @@
         </svg>
         		<p class="calculator-error__title">There was an error with your calculation.</p>
         	</div>
-        	<div class="col" id="error-list">
-        	</div>
+        	<div class="col" id="error-list"></div>
         </div>        <span id="calculator_result"><div class="calculator-result col">
 	<p class="table-cell table-cell--dark table-cell--only-title">Investment</p>
 	<div class="table-cell table-cell--age table-cell--only row">
 		<div class="col chart__text loan_type related-to-loan_type-0">
-			<p class="result-text" id="resultA-1">End Balance: $107,245.61</p>
-			<p class="result-text result-text--small-loan" id="resultA-2">Total Principal: $56,000.00</p>
-			<p class="result-text result-text--small-loan" id="resultA-3">Total Interest: $51,245.61</p>
+			<p class="result-text animate" id="resultA-1">End Balance: $107,245.61</p>
+			<p class="result-text result-text--small-loan animate" id="resultA-2">Total Principal: $56,000.00</p>
+			<p class="result-text result-text--small-loan animate" id="resultA-3">Total Interest: $51,245.61</p>
 		</div>
 		<div class="col chart__text loan_type related-item-hidden related-to-loan_type-1">
-			<p class="result-text" id="resultB-1">End Balance: $107,245.61</p>
-			<p class="result-text result-text--small-loan" id="resultB">You will need to contribute $200.00 at the end of each month to reach the target of $107,245.61.</p>
-			<p class="result-text result-text--small-loan" id="resultB-2">Total Principal: $56,000.00</p>
-			<p class="result-text result-text--small-loan" id="resultB-3">Total Interest: $51,245.61</p>
+			<p class="result-text animate" id="resultB-1">End Balance: $107,245.61</p>
+			<p class="result-text result-text--small-loan animate" id="resultB">You will need to contribute $200.00 at the end of each month to reach the target of $107,245.61.</p>
+			<p class="result-text result-text--small-loan animate" id="resultB-2">Total Principal: $56,000.00</p>
+			<p class="result-text result-text--small-loan animate" id="resultB-3">Total Interest: $51,245.61</p>
 		</div>
 		<div class="col chart__text loan_type related-item-hidden related-to-loan_type-2">
-			<p class="result-text" id="resultC-1">End Balance: $107,245.61</p>
-			<p class="result-text result-text--small-loan" id="resultC">You will need an annual return rate of 6% to reach the target of $107,245.61.</p>
-			<p class="result-text result-text--small-loan" id="resultC-2">Total Principal: $56,000.00</p>
-			<p class="result-text result-text--small-loan" id="resultC-3">Total Interest: $51,245.61</p>
+			<p class="result-text animate" id="resultC-1">End Balance: $107,245.61</p>
+			<p class="result-text result-text--small-loan animate" id="resultC">You will need an annual return rate of 6% to reach the target of $107,245.61.</p>
+			<p class="result-text result-text--small-loan animate" id="resultC-2">Total Principal: $56,000.00</p>
+			<p class="result-text result-text--small-loan animate" id="resultC-3">Total Interest: $51,245.61</p>
 		</div>
 		<div class="col chart__text loan_type related-item-hidden related-to-loan_type-3">
-			<p class="result-text" id="resultD-1">End Balance: $107,245.61</p>
-			<p class="result-text result-text--small-loan" id="resultD">You will need to invest $20,000.00 at the beginning to reach the target of $107,245.61.</p>
-			<p class="result-text result-text--small-loan" id="resultD-2">Total Principal: $56,000.00</p>
-			<p class="result-text result-text--small-loan" id="resultD-3">Total Interest: $51,245.61</p>
+			<p class="result-text animate" id="resultD-1">End Balance: $107,245.61</p>
+			<p class="result-text result-text--small-loan animate" id="resultD">You will need to invest $20,000.00 at the beginning to reach the target of $107,245.61.</p>
+			<p class="result-text result-text--small-loan animate" id="resultD-2">Total Principal: $56,000.00</p>
+			<p class="result-text result-text--small-loan animate" id="resultD-3">Total Interest: $51,245.61</p>
 		</div>
 		<div class="col chart__text loan_type related-item-hidden related-to-loan_type-4">
-			<p class="result-text" id="resultE-1">End Balance: $107,245.61</p>
-			<p class="result-text result-text--small-loan" id="resultE">You will need to invest 15 years to reach the target of $107,245.61.</p>
-			<p class="result-text result-text--small-loan" id="resultE-2">Total Principal: $56,000.00</p>
-			<p class="result-text result-text--small-loan" id="resultE-3">Total Interest: $51,245.61</p>
+			<p class="result-text animate" id="resultE-1">End Balance: $107,245.61</p>
+			<p class="result-text result-text--small-loan animate" id="resultE">You will need to invest 15 years to reach the target of $107,245.61.</p>
+			<p class="result-text result-text--small-loan animate" id="resultE-2">Total Principal: $56,000.00</p>
+			<p class="result-text result-text--small-loan animate" id="resultE-3">Total Interest: $51,245.61</p>
 		</div>
 		<div class="chart-wrapper chart-wrapper--donut chart-wrapper--donut-row">
 			<canvas id="chartDonutBig" class="chart chart--donut" width="220px" height="220px"></canvas>
@@ -487,7 +489,7 @@
 			<table class="result-table">
 				<thead>
 				<tr>
-					<th class="indigo text-center">№</th>
+					<th class="indigo text-center">#</th>
 					<th class="indigo">BEGINNING BALANCE</th>
 					<th class="indigo">INTEREST</th>
 					<th class="indigo">CONTRIBUTION</th>
@@ -615,7 +617,7 @@
 			<table class="result-table">
 				<thead>
 				<tr>
-					<th class="indigo text-center">№</th>
+					<th class="indigo text-center">#</th>
 					<th class="indigo">BEGINNING BALANCE</th>
 					<th class="indigo">INTEREST</th>
 					<th class="indigo">CONTRIBUTION</th>
@@ -708,7 +710,7 @@
 					<td>$23,700.67</td>
 				</tr>
 				<tr>
-					<th class="indigo text-center" colspan="5">Year #1 End</th>
+					<th class="indigo text-center" colspan="5">Year 1 End</th>
 				</tr>
 				<tr>
 					<td class="text-center">13</td>
@@ -795,7 +797,7 @@
 					<td>$27,629.59</td>
 				</tr>
 				<tr>
-					<th class="indigo text-center" colspan="5">Year #2 End</th>
+					<th class="indigo text-center" colspan="5">Year 2 End</th>
 				</tr>
 				<tr>
 					<td class="text-center">25</td>
@@ -882,7 +884,7 @@
 					<td>$31,800.83</td>
 				</tr>
 				<tr>
-					<th class="indigo text-center" colspan="5">Year #3 End</th>
+					<th class="indigo text-center" colspan="5">Year 3 End</th>
 				</tr>
 				<tr>
 					<td class="text-center">37</td>
@@ -969,7 +971,7 @@
 					<td>$36,229.35</td>
 				</tr>
 				<tr>
-					<th class="indigo text-center" colspan="5">Year #4 End</th>
+					<th class="indigo text-center" colspan="5">Year 4 End</th>
 				</tr>
 				<tr>
 					<td class="text-center">49</td>
@@ -1056,7 +1058,7 @@
 					<td>$40,931.01</td>
 				</tr>
 				<tr>
-					<th class="indigo text-center" colspan="5">Year #5 End</th>
+					<th class="indigo text-center" colspan="5">Year 5 End</th>
 				</tr>
 				<tr>
 					<td class="text-center">61</td>
@@ -1143,7 +1145,7 @@
 					<td>$45,922.66</td>
 				</tr>
 				<tr>
-					<th class="indigo text-center" colspan="5">Year #6 End</th>
+					<th class="indigo text-center" colspan="5">Year 6 End</th>
 				</tr>
 				<tr>
 					<td class="text-center">73</td>
@@ -1230,7 +1232,7 @@
 					<td>$51,222.18</td>
 				</tr>
 				<tr>
-					<th class="indigo text-center" colspan="5">Year #7 End</th>
+					<th class="indigo text-center" colspan="5">Year 7 End</th>
 				</tr>
 				<tr>
 					<td class="text-center">85</td>
@@ -1317,7 +1319,7 @@
 					<td>$56,848.56</td>
 				</tr>
 				<tr>
-					<th class="indigo text-center" colspan="5">Year #8 End</th>
+					<th class="indigo text-center" colspan="5">Year 8 End</th>
 				</tr>
 				<tr>
 					<td class="text-center">97</td>
@@ -1404,7 +1406,7 @@
 					<td>$62,821.97</td>
 				</tr>
 				<tr>
-					<th class="indigo text-center" colspan="5">Year #9 End</th>
+					<th class="indigo text-center" colspan="5">Year 9 End</th>
 				</tr>
 				<tr>
 					<td class="text-center">109</td>
@@ -1491,7 +1493,7 @@
 					<td>$69,163.80</td>
 				</tr>
 				<tr>
-					<th class="indigo text-center" colspan="5">Year #10 End</th>
+					<th class="indigo text-center" colspan="5">Year 10 End</th>
 				</tr>
 				<tr>
 					<td class="text-center">121</td>
@@ -1578,7 +1580,7 @@
 					<td>$75,896.79</td>
 				</tr>
 				<tr>
-					<th class="indigo text-center" colspan="5">Year #11 End</th>
+					<th class="indigo text-center" colspan="5">Year 11 End</th>
 				</tr>
 				<tr>
 					<td class="text-center">133</td>
@@ -1665,7 +1667,7 @@
 					<td>$83,045.05</td>
 				</tr>
 				<tr>
-					<th class="indigo text-center" colspan="5">Year #12 End</th>
+					<th class="indigo text-center" colspan="5">Year 12 End</th>
 				</tr>
 				<tr>
 					<td class="text-center">145</td>
@@ -1752,7 +1754,7 @@
 					<td>$90,634.20</td>
 				</tr>
 				<tr>
-					<th class="indigo text-center" colspan="5">Year #13 End</th>
+					<th class="indigo text-center" colspan="5">Year 13 End</th>
 				</tr>
 				<tr>
 					<td class="text-center">157</td>
@@ -1839,7 +1841,7 @@
 					<td>$98,691.43</td>
 				</tr>
 				<tr>
-					<th class="indigo text-center" colspan="5">Year #14 End</th>
+					<th class="indigo text-center" colspan="5">Year 14 End</th>
 				</tr>
 				<tr>
 					<td class="text-center">169</td>
@@ -1926,16 +1928,13 @@
 					<td>$107,245.61</td>
 				</tr>
 				<tr>
-					<th class="indigo text-center" colspan="5">Year #15 End</th>
+					<th class="indigo text-center" colspan="5">Year 15 End</th>
 				</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
 </div>
-
-<!-- <script src="./assets/js/chart.js"./assets/js/chart.js').then(e => switchTheme = e.default)
-</script> -->
 </span>
     </div>
 </div>
